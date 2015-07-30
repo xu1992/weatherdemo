@@ -41,25 +41,25 @@ public class WeatherDemoDB {
 	 */
 	public void saveProvince(Province p){
 		ContentValues values = new ContentValues();
-		values.put("p_name", p.getpName());
-		values.put("p_code", p.getpCode());
+		values.put("pName", p.getpName());
+		values.put("pCode", p.getpCode());
 		db.insert("province", null, values);
 	}
 	
 	public void saveCity(City ci){
 		ContentValues values = new ContentValues();
-		values.put("ci_name", ci.getCiName());
-		values.put("ci_code", ci.getCiCode());
-		values.put("p_id", ci.getpId());
+		values.put("ciName", ci.getCiName());
+		values.put("ciCode", ci.getCiCode());
+		values.put("pId", ci.getpId());
 		db.insert("city", null, values);
 	}
-	public void saveProvince(Country co){
+	public void saveCountry(Country co){
 		ContentValues values = new ContentValues();
-		values.put("p_name", co.getCoName());
-		values.put("p_code", co.getCoCode());
-		values.put("ci_id", co.getCiId());
+		values.put("coName", co.getCoName());
+		values.put("coCode", co.getCoCode());
+		values.put("ciId", co.getCiId());
 		
-		db.insert("province", null, values);
+		db.insert("country", null, values);
 	}
 	
 	
@@ -67,16 +67,33 @@ public class WeatherDemoDB {
 	 * 从数据库读取全国所有的省份信息
 	 */
 	
-	public List<City> loadProvince(){
-		List<City> lists = new ArrayList<City>();
+	public List<Province> loadProvince(){
+		List<Province> lists = new ArrayList<Province>();
 		Cursor cursor = db.query("province", null, null,null,null,null,null);
 		if(cursor.moveToFirst()){
 			do{
-				City p = new City();
+				Province p = new Province();
 				p.setId(cursor.getInt(cursor.getColumnIndex("id")));
-				p.setCiName(cursor.getString(cursor.getColumnIndex("pName")));
-				p.setCiCode(cursor.getString(cursor.getColumnIndex("pCode")));
+				p.setpName(cursor.getString(cursor.getColumnIndex("pName")));
+				p.setpCode(cursor.getString(cursor.getColumnIndex("pCode")));
 				lists.add(p);
+			}while(cursor.moveToNext());
+		}
+		if(cursor != null)
+			cursor.close();
+		return lists;
+	}
+	public List<City> loadCity(){
+		List<City> lists = new ArrayList<City>();
+		Cursor cursor = db.query("country", null, null,null,null,null,null);
+		if(cursor.moveToFirst()){
+			do{
+				City ci = new City();
+				ci.setId(cursor.getInt(cursor.getColumnIndex("id")));
+				ci.setCiName(cursor.getString(cursor.getColumnIndex("coName")));
+				ci.setCiCode(cursor.getString(cursor.getColumnIndex("coCode")));
+				ci.setpId(cursor.getInt(cursor.getColumnIndex("pId")));
+				lists.add(ci);
 			}while(cursor.moveToNext());
 		}
 		if(cursor != null)

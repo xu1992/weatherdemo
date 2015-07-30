@@ -9,9 +9,9 @@ public class WeatherDemoOpenHelper extends SQLiteOpenHelper {
 	/*
 	 * 定义建表语句常量
 	 */
-	public static final String T_PROVINCE = "create table province ("+"id integer primary key atuoincrement,"+"p_name text,"+"p_code text)";
-	public static final String T_CITY = "create table city ("+"id integer primary key atuoincrement,"+"ci_name text,"+"ci_code text,"+"p_id integer)";
-	public static final String T_COUNTRY = "create table country ("+"id integer primary key atuoincrement,"+"co_name text,"+"co_code text,"+"ci_id integer)";
+	public static final String T_PROVINCE = "create table province ("+"id integer primary key autoincrement,"+"pName text,"+"pCode text)";
+	public static final String T_CITY = "create table city ("+"id integer primary key autoincrement,"+"ciName text,"+"ciCode text,"+"pId integer)";
+	public static final String T_COUNTRY = "create table country ("+"id integer primary key autoincrement,"+"coName text,"+"coCode text,"+"ciId integer)";
 	
 	public WeatherDemoOpenHelper(Context context, String name,
 			CursorFactory factory, int version) {
