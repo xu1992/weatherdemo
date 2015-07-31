@@ -6,6 +6,7 @@ import java.util.List;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -53,6 +54,9 @@ public class ChooseAreaActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.choose_area);
+		
+		checkNet();  
+
 		lv = (ListView) findViewById(R.id.lv);
 		tv_title = (TextView)findViewById(R.id.tv_title);
 		adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,dataList);
@@ -64,6 +68,7 @@ public class ChooseAreaActivity extends Activity {
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
 				if(currentLevel == LEVEL_PROVINCE){
+					qureyFromServer(null,"province");
 					selectedProvince = pList.get(position);
 					Intent it = new Intent(ChooseAreaActivity.this,WeatherActivity.class);
 					it.putExtra("pCode", selectedProvince.getpCode());
@@ -75,7 +80,30 @@ public class ChooseAreaActivity extends Activity {
 		queryProvinces();//加载省级数据
 	}
 
-	private void queryProvinces() {
+
+	private void checkNet() {
+		ConnectivityManager con=(ConnectivityManager)getSystemService(Activity.CONNECTIVITY_SERVICE);  
+		boolean wifi=con.getNetworkInfo(ConnectivityManager.TYPE_WIFI).isConnectedOrConnecting();  
+		boolean internet=con.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).isConnectedOrConnecting();  
+		if(wifi|internet){  
+		    //执行相关操作  
+		}else{  
+		    Toast.makeText(getApplicationContext(),  
+		            "请先连接网络。", Toast.LENGTH_LONG)  
+		            .show();  
+		    return;
+		}
+	}
+
+	
+	@Override
+	protected void onResume() {
+		super.onResume();
+//		checkNet();
+		
+	}
+	
+ 	private void queryProvinces() {
 		pList = weatherDemoDB.loadProvince();
 		if(pList.size() > 0 ){
 			dataList.clear();
@@ -131,7 +159,7 @@ public class ChooseAreaActivity extends Activity {
 					@Override
 					public void run() {
 						closeProgressDialog();
-						Toast.makeText(ChooseAreaActivity.this, "加载失败", 0).show();
+						Toast.makeText(ChooseAreaActivity.this, "检测到您未连网，为您自动返回上次查询数据", 0).show();
 					}
 				});
 			}

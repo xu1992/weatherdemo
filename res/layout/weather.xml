@@ -47,6 +47,7 @@
             android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:layout_gravity="center"
+            android:gravity="center"
             android:textColor="#FFF"
             android:textSize="18sp"
             android:hint="10:10"
@@ -57,6 +58,7 @@
             android:layout_width="wrap_content"
             android:layout_height="60dp"
             android:layout_gravity="center_horizontal"
+            android:gravity="center"
             android:textColor="#FFF"
             android:textSize="30sp"
             android:hint="haha"
@@ -64,8 +66,10 @@
         <TextView 
             android:id="@+id/weather_wind"
             android:layout_width="wrap_content"
+                        android:gravity="center"
             android:layout_height="40dp"
 			android:hint="wind"
+			 
 			android:layout_gravity="center_horizontal"
 			android:textColor="#FFF"
 			android:textSize="25sp"         
