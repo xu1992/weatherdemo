@@ -24,14 +24,14 @@ import com.weatherdemo.app.domain.Province;
  */
 public class Utility {
 	 
-	public synchronized static boolean handleProvincesResponse(Context context,WeatherDemoDB weatherDemoDB,String response){
+	public synchronized static boolean handleProvincesResponse(Context context,int count,WeatherDemoDB weatherDemoDB,String response){
 		if(!TextUtils.isEmpty(response)){
-			parseXMLWithPull(context,weatherDemoDB,response);
+			parseXMLWithPull(context,count,weatherDemoDB,response);
 			return true;
 		}
 		return false;
 	}
-	private static void parseXMLWithPull(Context context,WeatherDemoDB weatherDemoDB,String response) {
+	private static void parseXMLWithPull(Context context,int count,WeatherDemoDB weatherDemoDB,String response) {
 		 
 		try {
 			XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
@@ -45,12 +45,14 @@ public class Utility {
 				if(xmlPullParser.getEventType() == xmlPullParser.START_TAG){
 					String nodeName = xmlPullParser.getName();
 					if("city".equals(nodeName)){
-						Province p = new Province();
-						p.setpName(xmlPullParser.getAttributeValue(null, "quName"));
-						p.setpCode(i+"");
+						if(count==1){
+							Province p = new Province();
+							p.setpName(xmlPullParser.getAttributeValue(null, "quName"));
+							p.setpCode(i+"");
+							weatherDemoDB.saveProvince(p);
+						}
 						saveWeatherInfo(context,i,
 								xmlPullParser.getAttributeValue(2),xmlPullParser.getAttributeValue(null, "tem1"),xmlPullParser.getAttributeValue(null, "tem2"), xmlPullParser.getAttributeValue(null, "stateDetailed"),xmlPullParser.getAttributeValue(null, "windState"),"2015");
-						weatherDemoDB.saveProvince(p);
 						i++;
 					}
 				}

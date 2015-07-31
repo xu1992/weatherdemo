@@ -68,7 +68,7 @@ public class ChooseAreaActivity extends Activity {
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
 				if(currentLevel == LEVEL_PROVINCE){
-					qureyFromServer(null,"province");
+					qureyFromServer(null,"province2");
 					selectedProvince = pList.get(position);
 					Intent it = new Intent(ChooseAreaActivity.this,WeatherActivity.class);
 					it.putExtra("pCode", selectedProvince.getpCode());
@@ -135,8 +135,11 @@ public class ChooseAreaActivity extends Activity {
 			public void onFinish(String response) {
 				boolean result = false;
 				if("province".equals(type)){
-					result = Utility.handleProvincesResponse(ChooseAreaActivity.this,weatherDemoDB, response);
-				}//Î´Íê´ýÐø
+					result = Utility.handleProvincesResponse(ChooseAreaActivity.this,1,weatherDemoDB, response);
+				}
+				if("province2".equals(type)){
+					result = Utility.handleProvincesResponse(ChooseAreaActivity.this,2,weatherDemoDB, response);
+				}
 				
 				if(result){
 					runOnUiThread(new Runnable(){

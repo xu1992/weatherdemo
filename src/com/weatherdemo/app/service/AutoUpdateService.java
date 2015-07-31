@@ -49,7 +49,7 @@ public class AutoUpdateService extends Service {
 			
 			@Override
 			public void onFinish(String response) {
-				boolean flag = Utility.handleProvincesResponse(AutoUpdateService.this, WeatherDemoDB.getInstance(AutoUpdateService.this), response);
+				boolean flag = Utility.handleProvincesResponse(AutoUpdateService.this,3,WeatherDemoDB.getInstance(AutoUpdateService.this), response);
 				if(flag){
 					//Toast.makeText(AutoUpdateService.this,"后台自动更新成功 ", 1).show();
 					handlerString = "begin";
