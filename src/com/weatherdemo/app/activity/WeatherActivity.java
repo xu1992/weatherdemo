@@ -25,17 +25,7 @@ public class WeatherActivity extends Activity {
 	private TextView tv_temp1; 
 	private TextView tv_temp2;
 	private TextView tv_currentDate;
-	private Handler handler = new Handler(){
-		private void handlerMess(Message msg) {
-			switch(msg.what){
-			case 1:
-				Toast.makeText(WeatherActivity.this, "天气更新 成功", 1).show();
-				break;
-			default:
-				break;
-			}
-		}
-	};
+	 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -60,7 +50,7 @@ public class WeatherActivity extends Activity {
 			tv_weatherWind.setText(prefs.getString("weather_wind"+pCode, ""));
 			String currentdate = prefs.getString("current_date"+pCode, "");
 			tv_currentDate.setText(currentdate.substring(0, 10));
-			tv_publish.setText("同步中:"+currentdate.substring(10,16));
+			tv_publish.setText("同步中:"+currentdate.substring(10));
 			//weatherInfoLayout.setVisibility(View.VISIBLE);
 			Intent it = new Intent(this,AutoUpdateService.class);
 			startService(it);
